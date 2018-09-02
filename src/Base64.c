@@ -18,8 +18,8 @@
 
 #if defined(WIN32) || defined(WIN64)
 #pragma comment(lib, "crypt32.lib")
-#include <Windows.h>
-#include <WinCrypt.h>
+#include <windows.h>
+#include <wincrypt.h>
 b64_size_t Base64_decode( b64_data_t *out, b64_size_t out_len, const char *in, b64_size_t in_len )
 {
 	b64_size_t ret = 0u;

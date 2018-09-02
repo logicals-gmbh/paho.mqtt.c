@@ -75,7 +75,7 @@ typedef struct
 	const char* value;
 } pubsub_opts_nameValue;
 
-//void usage(struct pubsub_opts* opts, const char* version, const char* program_name);
+/* void usage(struct pubsub_opts* opts, const char* version, const char* program_name); */
 void usage(struct pubsub_opts* opts, pubsub_opts_nameValue* name_values, const char* program_name);
 int getopts(int argc, char** argv, struct pubsub_opts* opts);
 char* readfile(int* data_len, struct pubsub_opts* opts);

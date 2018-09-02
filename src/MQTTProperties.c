@@ -21,7 +21,11 @@
 #include "Heap.h"
 #include "StackTrace.h"
 
+#if defined(_WRS_KERNEL)
+#include <string.h>
+#else
 #include <memory.h>
+#endif
 
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
 

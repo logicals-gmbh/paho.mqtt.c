@@ -22,7 +22,6 @@
 #if !defined(CLIENTS_H)
 #define CLIENTS_H
 
-#include <time.h>
 #if defined(OPENSSL)
 #if defined(WIN32) || defined(WIN64)
 #include <winsock2.h>
@@ -33,6 +32,7 @@
 #include "LinkedList.h"
 #include "MQTTClientPersistence.h"
 
+#include <time.h>
 
 /**
  * Stored publication data to minimize copying

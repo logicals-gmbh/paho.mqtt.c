@@ -3621,17 +3621,17 @@ static MQTTPacket* MQTTAsync_cycle(int* sock, unsigned long timeout, int* rc)
 
 				if (pack->header.bits.type == PUBCOMP)
 				{
-					//ack = *(Pubcomp*)pack;
+					/* ack = *(Pubcomp*)pack; */
 					*rc = MQTTProtocol_handlePubcomps(pack, *sock);
 				}
 				else if (pack->header.bits.type == PUBREC)
 				{
-					//ack = *(Pubrec*)pack;
+					/* ack = *(Pubrec*)pack; */
 					*rc = MQTTProtocol_handlePubrecs(pack, *sock);
 				}
 				else if (pack->header.bits.type == PUBACK)
 				{
-					//ack = *(Puback*)pack;
+					/* ack = *(Puback*)pack; */
 					*rc = MQTTProtocol_handlePubacks(pack, *sock);
 				}
 				if (!m)

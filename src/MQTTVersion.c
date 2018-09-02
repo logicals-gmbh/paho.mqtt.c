@@ -138,9 +138,17 @@ int loadandcall(const char* libname)
 	int rc = 0;
 	MQTTAsync_nameValue* (*func_address)(void) = NULL;
 #if defined(WIN32) || defined(WIN64)
+#if defined(_MSC_VER)
+	wchar_t wlibname[30];
+#endif /* defined(_MSC_VER) */
 	HMODULE APILibrary;
 
-	if ((APILibrary = LoadLibraryA(libname)) == NULL)
+#if defined(_MSC_VER)
+	mbstowcs(wlibname, libname, sizeof(wlibname) / sizeof(wlibname[0]) - 1);
+	if ((APILibrary = LoadLibrary(wlibname)) == NULL)
+#else
+	if ((APILibrary = LoadLibrary(libname)) == NULL)
+#endif /* defined(_MSC_VER) */
 		printf("Error loading library %s, error code %d\n", libname, GetLastError());
 	else
 	{

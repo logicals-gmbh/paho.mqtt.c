@@ -15,21 +15,23 @@
  *    Ian Craggs - use memory tracking
  *******************************************************************************/
 
-#include <stdint.h>
-#include <stdio.h>
-#include <string.h>
-
 #include "WebSocket.h"
+#include "MQTTProtocolOut.h"
 
 #include "Base64.h"
 #include "Log.h"
 #include "SHA1.h"
 #include "LinkedList.h"
-#include "MQTTProtocolOut.h"
 #include "StackTrace.h"
+
+#include <stdint.h>
+#include <stdio.h>
+#include <string.h>
 
 #if defined(__linux__)
 #  include <endian.h>
+#elif defined(_WRS_KERNEL)
+#  include <strings.h>
 #elif defined(__APPLE__)
 #  include <libkern/OSByteOrder.h>
 #  define htobe16(x) OSSwapHostToBigInt16(x)
@@ -42,9 +44,23 @@
 #  include <sys/endian.h>
 #elif defined(WIN32) || defined(WIN64)
 #  pragma comment(lib, "rpcrt4.lib")
-#  include <Rpc.h>
+#  include <rpc.h>
 #  define strncasecmp(s1,s2,c) _strnicmp(s1,s2,c)
 #  if BYTE_ORDER == LITTLE_ENDIAN
+#    if !defined(_MSC_VER)
+static uint64_t htonll(uint64_t value)
+{
+  uint32_t const high_part = htonl((uint32_t)(value >> 32));
+  uint32_t const low_part = htonl((uint32_t)(value & 0xFFFFFFFFLL));
+  return ((uint64_t)(low_part) << 32) | high_part;
+}
+static uint64_t ntohll(uint64_t value)
+{
+  uint32_t const high_part = ntohl((uint32_t)(value >> 32));
+  uint32_t const low_part = ntohl((uint32_t)(value & 0xFFFFFFFFLL));
+  return ((uint64_t)(low_part) << 32) | high_part;
+}
+#    endif /* !defined(_MSC_VER) */
 #    define htobe16(x)   htons(x)
 #    define htobe32(x)   htonl(x)
 #    define htobe64(x)   htonll(x)

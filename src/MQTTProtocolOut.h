@@ -21,8 +21,8 @@
 #if !defined(MQTTPROTOCOLOUT_H)
 #define MQTTPROTOCOLOUT_H
 
-#include "LinkedList.h"
 #include "MQTTPacket.h"
+#include "LinkedList.h"
 #include "Clients.h"
 #include "Log.h"
 #include "Messages.h"

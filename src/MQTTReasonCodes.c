@@ -19,7 +19,9 @@
 #include "Heap.h"
 #include "StackTrace.h"
 
-#include <memory.h>
+#if !defined(_WRS_KERNEL)
+#  include <memory.h>
+#endif /* !defined(_WRS_KERNEL) */
 
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
 

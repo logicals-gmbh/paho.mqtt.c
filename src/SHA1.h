@@ -26,8 +26,8 @@
 #else /* if defined(OPENSSL) */
 
 #if defined(WIN32) || defined(WIN64)
-#include <Windows.h>
-#include <WinCrypt.h>
+#include <windows.h>
+#include <wincrypt.h>
 typedef struct SHA_CTX_S
 {
 	HCRYPTPROV hProv;

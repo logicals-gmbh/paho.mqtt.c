@@ -141,7 +141,7 @@ void* MQTTPacket_Factory(int MQTTVersion, networkHandles* net, int* error)
 		{
 			if ((pack = (*new_packets[ptype])(MQTTVersion, header.byte, data, remaining_length)) == NULL)
 			{
-				*error = SOCKET_ERROR; // was BAD_MQTT_PACKET;
+				*error = SOCKET_ERROR; /* was BAD_MQTT_PACKET; */
 				Log(LOG_ERROR, -1, "Bad MQTT packet, type %d", ptype);
 			}
 #if !defined(NO_PERSISTENCE)

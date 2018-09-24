@@ -155,7 +155,7 @@ void myconnect(MQTTAsync* client)
 	conn_opts.onFailure = onConnectFailure;
 	conn_opts.context = client;
 	ssl_opts.enableServerCertAuth = 0;
-	//conn_opts.ssl = &ssl_opts; need to link with SSL library for this to work
+	/* conn_opts.ssl = &ssl_opts; need to link with SSL library for this to work */
 	conn_opts.automaticReconnect = 1;
 	connected = 0;
 	if ((rc = MQTTAsync_connect(*client, &conn_opts)) != MQTTASYNC_SUCCESS)
@@ -197,7 +197,7 @@ void connectionLost(void* context, char* cause)
 	conn_opts.onFailure = onConnectFailure;
 	conn_opts.context = client;
 	ssl_opts.enableServerCertAuth = 0;
-	//conn_opts.ssl = &ssl_opts; need to link with SSL library for this to work
+	/* conn_opts.ssl = &ssl_opts; need to link with SSL library for this to work */
 	connected = 0;
 	if ((rc = MQTTAsync_connect(client, &conn_opts)) != MQTTASYNC_SUCCESS)
 	{

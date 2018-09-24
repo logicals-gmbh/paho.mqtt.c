@@ -99,7 +99,7 @@ int Socket_setnonblocking(int sock)
  */
 int Socket_error(char* aString, int sock)
 {
-#if defined(WIN32) || defined(WIN64)
+#if (defined(WIN32) || defined(WIN64)) && defined(_MSC_VER)
 	int errno;
 #endif
 

@@ -1410,6 +1410,18 @@ exit:
 	return rc;
 }
 
+static void closeOnSocketError(MQTTAsyncs* m)
+{
+  /* called on socket errors, connection is assumed to be lost (code taken from checkDisconnect) */
+  int was_connected = m->c->connected;
+  MQTTAsync_closeSession(m->c);
+  if (m->cl && was_connected)
+  {
+    Log(TRACE_MIN, -1, "Calling connectionLost for client %s", m->c->clientID);
+    (*(m->cl))(m->context, NULL);
+  }
+  MQTTAsync_startConnectRetry(m);
+}
 
 static void nextOrClose(MQTTAsyncs* m, int rc, char* message)
 {
@@ -1815,11 +1827,7 @@ static thread_return_type WINAPI MQTTAsync_receiveThread(void* n)
 		{
 			Log(TRACE_MINIMUM, -1, "Error from MQTTAsync_cycle() - removing socket %d", sock);
 			if (m->c->connected == 1)
-			{
-				MQTTAsync_unlock_mutex(mqttasync_mutex);
-				MQTTAsync_disconnect_internal(m, 0);
-				MQTTAsync_lock_mutex(mqttasync_mutex);
-			}
+			  closeOnSocketError(m);
 			else if (m->c->connect_state != 0)
 				nextOrClose(m, rc, "socket error");
 			else /* calling disconnect_internal won't have any effect if we're already disconnected */
